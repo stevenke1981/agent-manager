@@ -1,0 +1,19 @@
+# Agent Manager — local state & secrets
+.config.json
+.backup/
+agents/.evolution.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+
+# Claude Copilot local settings
+.claude/
+
+# agents/ is a separate sub-repo — managed independently
+# Uncomment the next line to exclude agents entirely:
+# agents/
