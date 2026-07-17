@@ -19,7 +19,7 @@ Safely integrate the 306 `SKILL.md` files from `agent-manager-agents-v2.0.0/agen
 
 ## Pending
 
-- Commit the reviewed integration and push `master` to `origin`.
+- None.
 
 ## Blockers
 
@@ -43,8 +43,8 @@ Safely integrate the 306 `SKILL.md` files from `agent-manager-agents-v2.0.0/agen
 - Root frontmatter comparison: PASS, exactly 185 source-defined `name` normalizations.
 - `git diff --check`: PASS.
 - Self-review: PASS; review record and the smallest durable project lessons were recorded under `.codex/evolution/`.
-- Worktree status: 306 modified Agent Skills plus integration, evidence, checkpoint, and self-review artifacts; 0 staged files.
+- Integration commit `477dc7f0ba247c1b357c27ac5c4583f281354a4d` was pushed to `origin/master` and verified with `git ls-remote`.
 
 ## Next exact action
 
-Stage the verified worktree, confirm the staged boundary and remote state, then commit and push `master`.
+No remaining action for the Agent content V2 integration.
