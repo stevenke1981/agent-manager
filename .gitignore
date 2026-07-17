@@ -6,6 +6,9 @@ agents/.evolution.log
 target/
 .codebase-memory/
 .codex/evolution/state/*.local.md
+/agent-manager-agents-v2.0.0/
+/agent-manager-agents-v2.0.0.zip
+/.agent-backup/
 
 # Python
 __pycache__/

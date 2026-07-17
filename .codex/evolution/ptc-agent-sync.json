@@ -1,0 +1,43 @@
+{
+  "stage": "agent_pack_diff_reduction",
+  "purpose": "Normalize relative paths and reduce source/destination Agent Skill trees into exact SHA-256 add, update, identical, and destination-only sets.",
+  "eligible_tools": [
+    "shell_command:Get-ChildItem",
+    "shell_command:Get-FileHash"
+  ],
+  "input_fields": [
+    "source_root",
+    "destination_root",
+    "relative_path",
+    "size",
+    "sha256"
+  ],
+  "output_schema": {
+    "status": "ok|partial|failed",
+    "counts": {
+      "source_files": "integer",
+      "destination_files": "integer",
+      "add": "integer",
+      "update": "integer",
+      "identical": "integer",
+      "destination_only": "integer"
+    },
+    "add": ["relative_path"],
+    "update": ["relative_path"],
+    "destination_only": ["relative_path"],
+    "evidence": ["relative_path|source_sha256|destination_sha256"],
+    "errors": ["string"]
+  },
+  "retry_limit": 1,
+  "stop_condition": "Stop after every regular file under the supplied source and destination Agent roots has one normalized relative path and SHA-256 result, or after one transient retry.",
+  "handoff": "Return the compact diff JSON to the direct model for semantic decisions about overwrite, deletion, artifact selection, final validation, commit, and push.",
+  "forbidden_actions": [
+    "writes",
+    "file copy or deletion",
+    "approval decisions",
+    "citation rendering",
+    "native artifact delivery",
+    "final validation",
+    "git staging, commit, or push"
+  ]
+}

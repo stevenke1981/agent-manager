@@ -20,3 +20,8 @@
 - Checked bulk scans should return successful items and explicit diagnostics; silently filtering parse failures can turn incomplete input into a false clean result.
 - For many inputs targeting one consolidated file, read once, merge with stable idempotent markers, and backup/write at most once when content changed.
 - Derive import identity from the source-relative path, not only a filename stem; detect batch collisions and use a deterministic suffix when necessary.
+
+## Bulk synchronization acceptance
+
+- Treat hash equality, identity preservation, and semantic normalization as three independent acceptance dimensions. Per-path hashes prove byte equality, the identity key/path set proves object continuity, and field-level comparison reveals user-visible normalization; passing one does not imply the others.
+- Apply the authoritative source validator contract before inventing a competing field invariant. When that contract requires normalization, explicitly disclose the semantic and UI-visible changes instead of hiding them behind validator success or hash equality.
