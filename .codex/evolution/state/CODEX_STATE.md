@@ -20,7 +20,7 @@ Replace the Python/tkinter application with a modular, safe Rust eframe/egui des
 
 ## Pending
 
-- Root agent independent review, final verification, commit/push decision, and handoff.
+- None. Independent review, final verification, commit, and push are complete.
 
 ## Blockers
 
@@ -43,4 +43,4 @@ Replace the Python/tkinter application with a modular, safe Rust eframe/egui des
 
 ## Next exact action
 
-Hand off the completed worktree and evidence to the root agent for independent review; do not commit or push from this work package.
+No migration work remains. Future work should begin from `origin/master` and treat the existing corpus validation findings as a separate data-remediation task.
