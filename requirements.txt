@@ -1,2 +1,0 @@
-# Agent Manager uses only the Python standard library (tkinter is bundled).
-# No external dependencies required.

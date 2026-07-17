@@ -1,0 +1,36 @@
+[package]
+name = "agent-manager"
+version = "2.0.0"
+edition = "2024"
+description = "Windows desktop workbench for managing Agent Skills"
+license = "MIT"
+
+[lib]
+name = "agent_manager"
+path = "src/lib.rs"
+
+[[bin]]
+name = "agent-manager"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+atomicwrites = "0.4"
+chrono = { version = "0.4", features = ["serde"] }
+eframe = "0.31"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+rfd = "0.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+thiserror = "2"
+unicode-normalization = "0.1"
+walkdir = "2"
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+lto = "thin"
+strip = true

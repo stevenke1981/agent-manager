@@ -1,64 +1,35 @@
-# Plan — Agent Manager
+# Plan — Agent Manager 2.0
 
-## 目標
-打造一個 **Python GUI 應用**，管理 `agents/` 下 100+ 職業 Agent（SKILL.md 規格），具備：
-1. 依需求快速建立 Agent（模板化）
-2. 瀏覽、編輯、刪除
-3. 規格驗證
-4. 自我進化：找出問題 → 糾正 → 改進
+## Outcome
 
-## 里程碑
+將 Python/tkinter 1.2 完整切換為可建置、可執行的 Rust eframe/egui Windows 桌面工作台，同時保留 `agents/` 37 類、306 份資料及核心行為。
 
-### v1.0.0（已完成 — 2026-04-18）
-- [x] `agent.md` meta-agent 定義
-- [x] 核心模組：storage、categories、validator、template_engine、evolution_engine、agent_manager
-- [x] tkinter GUI：分類樹、編輯器、進化面板
-- [x] 啟動腳本 `start_gui.bat`
-- [x] 文件：README、blueprint、knowledge_graph
+## Rust 2.0 里程碑（2026-07-17）
 
-### v1.1.0（已完成 — 2026-04-18）
-- [x] 新類別 `21-AI生成`：6 個 AI 提示詞工程師 / Agent 架構師範本
-  - image-prompt-engineer（圖片生成）
-  - video-prompt-engineer（影片生成）
-  - audio-prompt-engineer（音訊/音樂）
-  - 3d-prompt-engineer（3D 模型）
-  - llm-prompt-engineer（LLM 提示詞）
-  - agent-architect（Agent 系統設計）
-- [x] OpenRouter API 整合（config + client + Settings dialog）
-- [x] 進化規則引擎（嚴重度門檻、dry run、每輪上限、三模式）
-- [x] GUI 設定對話框 + 測試連線
+- [x] Cargo crate、lockfile、無 `unsafe` 的模組化 source
+- [x] YAML frontmatter/body parser、未知 YAML 語意 roundtrip、Unicode path
+- [x] CRUD、備份、原子寫入、全文搜尋
+- [x] category、Unicode slug、template generation
+- [x] validation severity/summary、全庫 scan
+- [x] evolution decision、append-only skeleton、OpenRouter rewrite/fallback、JSONL log
+- [x] `.config.json`、OpenRouter ping/complete、AI draft/scoped edit
+- [x] agency-agents importer
+- [x] 13 種工具 install/backup registry，覆寫前建立可回復備份
+- [x] 現代 eframe/egui 工作台、亮暗主題、虛擬化 306 筆清單、未儲存/錯誤/載入狀態
+- [x] Windows Rust 啟動器與 headless `--check`
+- [x] parser、validator、backup/atomic save、slug/template、evolution、path conversion 測試
+- [x] 最終 fmt/check/test/clippy/release/headless/GUI smoke gate（結果見 `test.md`/`final.md`）
 
-### v1.2.0（已完成 — 2026-04-18）
-- [x] **AI 生成 Agent**：`NewAgentDialog` 新增「AI 生成內容」按鈕，依使用者類別 + 名稱 + 一句話需求，呼叫 OpenRouter API 生成 description（含啟動時機）、角色設定、核心能力與完整 body；使用者可在 GUI 預覽/編輯後再建立
-- [x] **AI 局部編輯**：工具列新增「AI 局部修改」→ `AIEditDialog`
-  - 範圍可選：整份 body / description / `## 角色設定` / `## 核心能力` / `## 操作流程` / `## 輸入範例` / `## 輸出範例` / `## 邊緣案例處理`
-  - 生成後先顯示預覽，可再編輯後按「套用」寫入（自動備份）
-- [x] `llm_client.generate_agent_draft()`、`edit_text_with_ai()` 兩支高階輔助
-- [x] `agent_manager.create_from_ai_draft()` 落地門面
-- [x] 所有 API 呼叫走背景執行緒，UI 不凍結
+## Preserved boundaries
 
-### v1.3.0（規劃）
-- [ ] 搜尋列（跨全部 Agent 全文搜尋）
-- [ ] Markdown 即時預覽面板
-- [ ] 批次匯出 JSON / 壓縮包
-- [ ] `agents/AGENTS_INDEX.md` 自動同步
-- [ ] 多語系支援（英文 UI）
-- [ ] 版本差異視覺化（diff view）
-- [ ] 回滾 UI（從 `.backup/` 還原）
-- [ ] 進化規則 per-category 客製化
-- [ ] API 用量 / 成本追蹤
-- [ ] AI 編輯支援自訂章節（非預設 `##` 標題）
+- `agents/`、`agent.md` 及既有知識文件內容不在重寫範圍內。
+- `.config.json`、`.backup/`、`.codebase-memory/`、`target/`、evolution log 不提交。
+- 不在 migration 驗證中對外部工具目錄做實際寫入；使用 temp/unit path 測試格式與轉換。
+- 不進行 commit 或 push。
 
-## 風險與對策
-| 風險 | 對策 |
-|------|------|
-| YAML 自行解析失準 | 後續可換 PyYAML；目前 subset 足夠 |
-| 中文字符在 Windows cmd 亂碼 | GUI 本身 OK；只影響 stdout 檢查輸出 |
-| 大量自動修復覆蓋使用者內容 | 所有修改前自動備份至 `.backup/` |
+## 後續候選（非 2.0 阻擋）
 
-## 變更歷史
-| 版本 | 日期 | 內容 | 影響範圍 |
-|------|------|------|----------|
-| v1.2.0 | 2026-04-18 | AI 生成 Agent + AI 局部編輯 | app/llm_client、app/agent_manager、app/main |
-| v1.1.0 | 2026-04-18 | 加入 21-AI生成 類別與 OpenRouter API 規劃 | agents/21-AI生成、app/config、app/llm_client、app/evolution_rules |
-| v1.0.0 | 2026-04-18 | 初始規劃 | — |
+- YAML lossless concrete-syntax tree，以保留註解與完全相同的引用風格。
+- Markdown rendered preview/diff/backup restore UI。
+- OpenRouter 成本/用量統計與取消中的請求。
+- 以各工具官方版本做 live format matrix 測試。
